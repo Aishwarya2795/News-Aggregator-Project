@@ -47,12 +47,15 @@ def comp():
     test1 = vec.transform(h)
     y = nb.predict(test1)
     t1.insert(END,y)
+    return(y,scr*100)
+
+def accuracy():
+    cat,acc=comp()
     t2.insert(END,scr*100)
+    
 
 b1=Button(window,text="CLICK THIS TO GET PREDICTED CATEGORY AND ACCURACY RATE",command=comp)
 b1.grid(row=0,column=0)
-
-
 
 t1=Text(window,height=5,width=20)
 t1.grid(row=2,column=0)
