@@ -1,43 +1,32 @@
-
-import numpy as np
-import pandas as pd
-import re
-import string
 from tkinter import *
-# import matplotlib.pyplot as plt
-
-# the Naive Bayes model
-from sklearn.naive_bayes import MultinomialNB
-# function to split the data for cross-validation
-from sklearn.model_selection import train_test_split
-# function for transforming documents into counts
-from sklearn.feature_extraction.text import CountVectorizer
-# function for encoding categories
-from sklearn.preprocessing import LabelEncoder
-
+from Classifiernews import *
 
 window=Tk()
 
-def comp():
-    column_names= ['ID','TITLE','URL','PUBLISHER','CATEGORY','STORY','HOSTNAME','TIMESTAMP']
-    news_df = pd.read_csv('newsCorpora.csv',sep='	',names=column_names)
-    X_independent = pd.DataFrame(news_df.iloc[1:5,:2].values)
-    X_independent = news_df.iloc[:,:2].values
-    headline = list(news_df["TITLE"])
-    headline1 = []
-    for elem in headline:
-        s = elem.lower()
-        trans = str.maketrans("","",string.punctuation)
-        s = s.translate(trans)
-        headline1.append(s)
-    news_df["FORM_HEADLINE"] = headline1
-    X_independent = news_df[["ID","FORM_HEADLINE"]]
-    Y_dependent = news_df["CATEGORY"]
-    encoder = LabelEncoder()
-    Y_dependent = encoder.fit_transform(Y_dependent)
-    vec = CountVectorizer()
-    x = vec.fit_transform(news_df["FORM_HEADLINE"])
-    x_train, x_test, y_train, y_test = train_test_split(x, Y_dependent, test_size=0.2)
+def predictor():
+    cat,acc=comp()
+    t1.insert(END,cat)
+
+def accuracy():
+    cat,acc=comp()
+    t2.insert(END,acc)
+
+
+b1=Button(window,text="CLICK THIS TO GET PREDICTED CATEGORY",command=predictor)
+b1.grid(row=0,column=0)
+
+
+b2=Button(window,text="CLICK THIS TO GET ACCURACY RATE",command=accuracy)
+b2.grid(row=3,column=0)
+
+
+t1=Text(window,height=5,width=20)
+t1.grid(row=2,column=0)
+t2=Text(window,height=5,width=20)
+t2.grid(row=5,column=0)
+
+window=mainloop()
+ain_test_split(x, Y_dependent, test_size=0.2)
     nb = MultinomialNB()
     nb.fit(x_train, y_train)
     scr = nb.score(x_test,y_test)
