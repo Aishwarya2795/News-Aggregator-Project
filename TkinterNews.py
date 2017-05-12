@@ -54,11 +54,15 @@ def accuracy():
     t2.insert(END,scr*100)
     
 
-b1=Button(window,text="CLICK THIS TO GET PREDICTED CATEGORY AND ACCURACY RATE",command=comp)
+b1=Button(window,text="CLICK THIS TO GET PREDICTED CATEGORY",command=comp)
 b1.grid(row=0,column=0)
 
+
+b2=Button(window,text="CLICK THIS TO GET ACCURACY RATE",command=accuracy)
+b2.grid(row=2,column=0)
+
 t1=Text(window,height=5,width=20)
-t1.grid(row=2,column=0)
+t1.grid(row=1,column=0)
 t2=Text(window,height=5,width=20)
 t2.grid(row=3,column=0)
 
