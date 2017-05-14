@@ -5,6 +5,9 @@ import numpy as np
 import pandas as pd
 import re
 import string
+from decimal import *
+
+
 
 #import cPickle
 # import matplotlib.pyplot as plt
@@ -26,11 +29,15 @@ def predictor():
 """
 
 def accuracy():
-
-    nb,vec,acc=comp()
-    acc = int(acc)
-    acc = "Prediction Accuracy Rate --> {}%".format(acc)
-    t2.insert(END,acc)
+    nb_loaded = joblib.load('/tmp/nb_classifier.joblib.pkl')
+    x_test = joblib.load('/tmp/xtest_classifier.joblib.pkl')
+    y_test = joblib.load('/tmp/ytest_classifier.joblib.pkl')
+    #nb,vec,acc=comp()
+    acc = nb_loaded.score(x_test,y_test)
+    acc = round(acc*100,5)
+    #acc = int(acc)
+    acc1 = "Prediction Accuracy Rate --> {}%".format(acc)
+    t2.insert(END,acc1)
 
 
 def enter_headline():
@@ -47,19 +54,20 @@ def enter_headline():
     count = 0
     for p in predicted_category:
         if p==0:
-            val = "BUSINESS AND FINANCE"
+            val = "     BUSINESS AND FINANCE"
         elif p==1:
-            val = "ENTERTAINMENT AND SPORTS"
+            val = "     ENTERTAINMENT AND SPORTS"
         elif p==2:
-            val ="     HEALTH"
+            val ="    HEALTH"
         elif p==3:
-            val ="   TECHNOLOGY"
+            val ="    TECHNOLOGY"
         count=count+1
     t3.insert(END,val)
 
 
 def clear_entry_fields():
    e1.delete(0,END)
+   t2.delete(0,END)
    t3.delete(1.0, END)
 
 b4=Button(window,text="CLEAR",command=clear_entry_fields)
@@ -80,7 +88,7 @@ b2.grid(row=1,column=0)
 b3=Button(window,text="ENTER THE HEADLINE BELOW AND CLICK",command=enter_headline)
 b3.grid(row=5,column=0)
 
-t2=Text(window,height=5,width=30)
+t2=Text(window,height=5,width=40)
 t2.grid(row=3,column=0)
 t3=Text(window,height=5,width=30)
 t3.grid(row=10,column=0)
